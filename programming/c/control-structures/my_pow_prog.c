@@ -15,8 +15,11 @@ int main(void)
 
     /* Add here a for loop that at each iteration prints out
        the current value of the power and updates val */
-#error Add the missing loop
-
+//#error Add the missing loop
+	for (n=0;n<=16;n++){
+		k=2**n;
+		printf("%i,\t\t%i\n",n,k);
+	}
     return 0;
 }
 
