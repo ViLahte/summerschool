@@ -87,6 +87,19 @@ void generate_field(field *temperature)
 
     /* TODO: Initialize the values of temperature */
 #error Add field initialization
+	radius = nx/2.0
+	for(i=0;i<nx+2;i++){
+			for(j=0;j<ny+2;j++){
+				int x = i-nx+2;
+				int y = j-ny+2;
+				if(sqrt(1.0*(x*x+y*y))<=radius){
+					temperature->data[i][j]=90.0;
+				} else {
+					temperature->data[i][j]=0.0;
+				}
+			}
+	}
+
 
 }
 
