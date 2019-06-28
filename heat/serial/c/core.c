@@ -21,18 +21,22 @@ void evolve(field *curr, field *prev, double a, double dt)
 
     /* TODO: Add update loops for computing the new field values
              of 'curr' using field 'prev' */
+
 //#error Add update loops
 
 	int nx = prev->nx;
 	int ny = prev->ny;
 
+	double **array = prev->data;
+	double laplace;
+
 	for(j=1;j<ny-1;j++){
 		for(i=1;i<nx-1;i++){
-			laplacian[i][j] =
-(array[i-1][j] - 2.0*array[i][j] + array[i+1][j] ) / 1.0*dx2 +
-(array[i][j+1] - 2.0*array[i][j] + array[i][j+1] ) / 1.0*dy2; 
+			laplace =  
+			(array[i-1][j] - 2.0*array[i][j] + array[i+1][j] ) / dx2 +
+			(array[i][j-1] - 2.0*array[i][j] + array[i][j+1] ) / dy2;
+
+			curr->data[i][j] = array[i][j] + dt*a*laplace;
 		}
 	}
 }
-
-

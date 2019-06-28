@@ -1,5 +1,5 @@
 ifeq ($(COMP),)
-COMP=cray
+COMP=gnu
 endif
 
 COMMONDIR=$(shell \
@@ -20,7 +20,7 @@ endif
 ifeq ($(COMP),gnu)
 CC=gcc
 CCFLAGS=-O3 -Wall -I$(COMMONDIR)
-LDFLAGS=
+LDFLAGS=-lm
 LIBS=-lpng
 endif
 
