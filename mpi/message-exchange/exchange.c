@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
     int i, myid, ntasks;
-    int msgsize = 100;
+    int msgsize = 100000;
     int *message;
     int *receiveBuffer;
     MPI_Status status;
@@ -26,11 +26,14 @@ int main(int argc, char *argv[])
     /* TODO: */
     /* Send and receive messages as defined in exercise */
     if (myid == 0) {
+		MPI_Send(message,msgsize,MPI_INT,1,0,MPI_COMM_WORLD);
+		MPI_Recv(receiveBuffer,msgsize,MPI_INT,1,0,MPI_COMM_WORLD,&status);
 
         printf("Rank %i received %i\n", myid, receiveBuffer[0]);
     } else if (myid == 1) {
-
-        printf("Rank %i received %i\n", myid, receiveBuffer[0]);
+		MPI_Recv(receiveBuffer,msgsize,MPI_INT,0,0,MPI_COMM_WORLD,&status);
+		MPI_Send(message,msgsize,MPI_INT,0,0,MPI_COMM_WORLD);
+		printf("Rank %i received %i\n", myid, receiveBuffer[0]);
     }
 
     free(message);

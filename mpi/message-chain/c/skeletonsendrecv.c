@@ -30,18 +30,33 @@ int main(int argc, char *argv[])
 
     /* TODO start */
     /* Send and receive messages as defined in exercise */
-    if (myid < ntasks - 1) {
-		MPI_Send(message,msgsize,MPI_INT,myid+1,0,MPI_COMM_WORLD);
+
+	if (myid < ntasks - 1) {
+
+		int source;
+		int dest;
+
+		if (myid==0) {
+			source = MPI_PROC_NULL;
+			dest = myid+1;
+		} if (myid==ntasks-1) {
+			dest =MPI_PROC_NULL;
+			source = myid-1;
+		} else {
+			source = myid-1;
+			dest = myid+1;
+		}
+		MPI_Sendrecv(message,msgsize,MPI_INT,dest,0,
+		receiveBuffer,msgsize,MPI_INT,source,0,MPI_COMM_WORLD,&status);
+
 		printf("Sender: %d. Sent elements: %d. Tag: %d. Receiver: %d\n",
                myid, msgsize, myid + 1, myid + 1);
-    }
 
-    if (myid > 0) {
-		MPI_Recv(receiveBuffer,msgsize,MPI_INT,myid-1,0,MPI_COMM_WORLD,&status);
-
-        printf("Receiver: %d. first element %d.\n",
-               myid, receiveBuffer[0]);
-    }
+    	if (myid > 0) {
+        	printf("Receiver: %d. first element %d.\n",
+            myid, receiveBuffer[0]);
+    	}
+	}
     /* TODO end */
 
     /* Finalize measuring the time and print it out */
